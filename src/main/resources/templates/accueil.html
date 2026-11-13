@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base :: base(~{::content}, 'Accueil', 'accueil')}">
+<body>
+<th:block th:fragment="content">
+
+    <section class="row align-items-center g-5">
+        <div class="col-lg-6">
+            <h1 class="accroche mb-3">Pose ta question à plusieurs IA.</h1>
+            <p class="sous-accroche mb-4">
+                Choisis un modèle, discute avec lui et retrouve tous tes échanges au même endroit.
+            </p>
+            <a class="btn btn-violet btn-lg px-4" th:href="@{/connexion}">Se connecter</a>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="apercu" aria-label="Exemple de conversation">
+                <span class="apercu-modele">Modèle : mistral-small-latest</span>
+                <div class="bulle bulle-utilisateur">Résume la photosynthèse en deux phrases.</div>
+                <div class="bulle bulle-assistant mb-0">
+                    Les plantes captent la lumière grâce à la <strong>chlorophylle</strong> pour
+                    transformer l’eau et le CO₂ en glucose. Elles rejettent de l’oxygène au passage.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="atouts row g-4 mt-5">
+        <div class="col-md-4">
+            <h2 class="h5">Plusieurs modèles</h2>
+            <p class="mb-0">Mistral, Gemini et d’autres fournisseurs à venir, au choix à chaque nouvelle conversation.</p>
+        </div>
+        <div class="col-md-4">
+            <h2 class="h5">Historique conservé</h2>
+            <p class="mb-0">Tes conversations et leurs messages sont enregistrés pour que tu puisses les relire.</p>
+        </div>
+        <div class="col-md-4">
+            <h2 class="h5">Réponses lisibles</h2>
+            <p class="mb-0">Titres, listes, tableaux et code s’affichent correctement grâce au Markdown.</p>
+        </div>
+    </section>
+
+</th:block>
+</body>
+</html>

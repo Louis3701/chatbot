@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer th:fragment="footer" class="pied py-4">
+    <div class="container d-flex flex-wrap justify-content-between gap-2">
+        <span>© <span th:text="${#dates.year(#dates.createNow())}">2026</span> Vinchat.ai</span>
+        <span>Projet BTS SIO SLAM – Lycée Léonard de Vinci</span>
+    </div>
+</footer>
+</body>
+</html>

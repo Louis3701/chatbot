@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base :: base(~{::content}, 'Connexion', 'connexion')}">
+<body>
+<th:block th:fragment="content">
+    <div class="carte-connexion">
+        <h1 class="h2 mb-4">Se connecter</h1>
+
+        <form id="form-connexion" action="#" method="post" novalidate>
+            <div class="mb-3">
+                <label for="email" class="form-label">Adresse e-mail</label>
+                <input type="email" class="form-control" id="email" name="email"
+                       autocomplete="email" required>
+            </div>
+            <div class="mb-4">
+                <label for="motDePasse" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="motDePasse" name="motDePasse"
+                       autocomplete="current-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+        </form>
+
+        <div id="message-connexion" class="alert alert-info mt-4 d-none" role="status">
+            La connexion sera disponible prochainement.
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,117 @@
+/* Charte graphique Vinchat.ai */
+:root {
+  --vc-nuit: #1B1B3A;
+  --vc-violet: #6C4CF1;
+  --vc-jaune: #FFB703;
+  --vc-creme: #FAF7F0;
+  --vc-gris: #4A4766;
+
+  --bs-body-font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --bs-body-color: var(--vc-nuit);
+  --bs-body-bg: var(--vc-creme);
+  --bs-secondary-color: var(--vc-gris);
+  --bs-link-color: #5A3BDD;
+  --bs-link-hover-color: #4528BF;
+  --bs-border-color: rgba(27, 27, 58, .14);
+}
+
+h1, h2, h3, h4, h5, h6, .brand {
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Boutons */
+.btn-primary {
+  --bs-btn-color: var(--vc-creme);
+  --bs-btn-bg: var(--vc-nuit);
+  --bs-btn-border-color: var(--vc-nuit);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #2B2B5C;
+  --bs-btn-hover-border-color: #2B2B5C;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #2B2B5C;
+  --bs-btn-active-border-color: #2B2B5C;
+  --bs-btn-focus-shadow-rgb: 108, 76, 241;
+}
+.btn-violet {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--vc-violet);
+  --bs-btn-border-color: var(--vc-violet);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #5A3BDD;
+  --bs-btn-hover-border-color: #5A3BDD;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #4528BF;
+  --bs-btn-active-border-color: #4528BF;
+  --bs-btn-focus-shadow-rgb: 108, 76, 241;
+}
+.form-control:focus {
+  border-color: var(--vc-violet);
+  box-shadow: 0 0 0 .25rem rgba(108, 76, 241, .25);
+}
+
+/* En-tête */
+.entete {
+  background: #fff;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+.brand {
+  font-size: 1.5rem;
+  color: var(--vc-nuit);
+  text-decoration: none;
+}
+.brand:hover { color: var(--vc-nuit); }
+.brand-ai { color: var(--vc-violet); }
+.entete .nav-link { color: var(--vc-nuit); }
+.entete .nav-link.active { color: var(--vc-violet); font-weight: 600; }
+
+/* Pied de page */
+.pied {
+  background: var(--vc-nuit);
+  color: var(--vc-creme);
+  font-size: .9rem;
+}
+.pied a { color: var(--vc-jaune); }
+
+/* Page d'accueil */
+.accroche { font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.1; max-width: 16ch; }
+.sous-accroche { max-width: 46ch; font-size: 1.125rem; color: var(--vc-gris); }
+
+.apercu {
+  background: #fff;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+}
+.apercu-modele {
+  display: inline-block;
+  font-size: .85rem;
+  color: var(--vc-gris);
+  border-bottom: 1px solid var(--bs-border-color);
+  padding-bottom: .5rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.bulle {
+  max-width: 85%;
+  padding: .75rem 1rem;
+  border-radius: 1.1rem;
+  margin-bottom: .75rem;
+}
+.bulle-utilisateur {
+  margin-left: auto;
+  background: var(--vc-nuit);
+  color: var(--vc-creme);
+  border-bottom-right-radius: .3rem;
+}
+.bulle-assistant {
+  background: var(--vc-creme);
+  border: 1px solid var(--bs-border-color);
+  border-bottom-left-radius: .3rem;
+}
+
+.atouts > div { border-top: 2px solid var(--vc-nuit); padding-top: 1rem; }
+
+/* Connexion */
+.carte-connexion { max-width: 26rem; margin-inline: auto; }

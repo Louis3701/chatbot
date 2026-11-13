@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<!--
+  Modèle de page : à dupliquer pour créer un nouvel écran.
+  1. Changer le titre ('Titre de la page') et la clé du menu ('exemple').
+  2. Écrire le contenu dans le bloc th:fragment="content".
+-->
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base :: base(~{::content}, 'Titre de la page', 'exemple')}">
 <body>
-
+<th:block th:fragment="content">
+    <h1 class="h2">Titre de la page</h1>
+    <p>Contenu de la page.</p>
+</th:block>
 </body>
 </html>

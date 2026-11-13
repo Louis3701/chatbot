@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header(activePage)" class="entete py-2">
+    <nav class="container d-flex align-items-center justify-content-between" aria-label="Navigation principale">
+        <a class="brand d-flex align-items-center gap-2" th:href="@{/}">
+            <img th:src="@{/img/logo.svg}" alt="" width="40" height="40">
+            <span>Vinchat<span class="brand-ai">.ai</span></span>
+        </a>
+        <ul class="nav align-items-center gap-2">
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${activePage == 'accueil'} ? 'active'"
+                   th:attr="aria-current=${activePage == 'accueil' ? 'page' : null}"
+                   th:href="@{/}">Accueil</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-primary btn-sm px-3" th:href="@{/connexion}">Se connecter</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+</body>
+</html>
