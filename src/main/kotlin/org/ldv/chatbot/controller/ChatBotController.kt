@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping
 @Controller
 class ChatBotController {
 
-    @GetMapping("/")
+    @GetMapping("/bis")
     fun accueil(): String = "accueil"
 
     // Formulaire affiché seulement : la connexion sera réalisée au Sprint 2

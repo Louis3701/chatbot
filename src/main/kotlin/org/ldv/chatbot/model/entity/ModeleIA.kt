@@ -13,5 +13,14 @@ class ModeleIA(
     var urlAPI: String,
     var description: String,
     var cheminLogo: String,
+
+    // Association avec FourniseurIA (ModeleIA est le maître de l'association)
+    @ManyToOne
+    @JoinColumn(name = "fourniseur_ia_id", nullable = false)
+    var fourniseurIA: FourniseurIA,
+
+    // Association avec Conversation
+    @OneToMany(mappedBy = "modele")
+    var conversations: MutableList<Conversation> = mutableListOf()
 ) {
 }

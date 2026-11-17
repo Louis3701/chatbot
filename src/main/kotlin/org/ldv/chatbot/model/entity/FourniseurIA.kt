@@ -12,5 +12,9 @@ class FourniseurIA(
     var nom: String,
     var description: String,
     var cheminLogo: String,
+
+    // Association avec ModeleIA
+    @OneToMany(mappedBy = "fourniseurIA")
+    var modeles: MutableList<ModeleIA> = mutableListOf()
 ) {
 }
