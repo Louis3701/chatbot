@@ -1,0 +1,166 @@
+/* Compléments pour la page de chat (historique, modèle actuel, attente) */
+.liste-conversations .vide { color: var(--vc-doux); font-size: .9rem; padding: .6rem .75rem; }
+
+.modele-actuel {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .3rem .8rem;
+  background: var(--vc-surface);
+  border: 1px solid var(--vc-bord);
+  border-radius: 999px;
+  font-size: .9rem;
+  font-weight: 500;
+}
+.modele-actuel img { border-radius: .35rem; object-fit: contain; }
+
+.attente .texte { color: var(--vc-doux); }
+
+/* Réponses affichées en texte brut (avant le rendu Markdown) */
+.brut { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+
+
+/* Historique des conversations */
+.liste-conversations {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.conversation-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  margin-bottom: 5px;
+  border-radius: 9px;
+  transition: background 0.2s ease;
+}
+
+.conversation-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Titre de la conversation */
+.conversation-item > a {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 7px;
+  color: #c5c5d2;
+  text-decoration: none;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 7px;
+  transition: color 0.2s ease;
+}
+
+.conversation-item > a:hover {
+  color: white;
+}
+
+.conversation-item > a.actif {
+  color: white;
+  font-weight: 600;
+}
+
+/* Formulaire de suppression */
+.conversation-item form {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* Bouton poubelle */
+.btn-supprimer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #77778a;
+  cursor: pointer;
+  opacity: 0.65;
+  transition: all 0.2s ease;
+}
+
+.conversation-item:hover .btn-supprimer {
+  opacity: 1;
+}
+
+.btn-supprimer:hover {
+  color: #ff5364;
+  background: rgba(255, 83, 100, 0.13);
+}
+
+.btn-supprimer svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Message si aucune conversation */
+.liste-conversations .vide {
+  padding: 12px 8px;
+  color: #858599;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Mise en forme des réponses Markdown */
+
+.texte.markdown h1,
+.texte.markdown h2,
+.texte.markdown h3 {
+  margin: 18px 0 10px;
+  color: white;
+}
+
+.texte.markdown p {
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+
+.texte.markdown strong {
+  color: white;
+  font-weight: 700;
+}
+
+.texte.markdown ul,
+.texte.markdown ol {
+  padding-left: 25px;
+  margin: 10px 0;
+}
+
+.texte.markdown li {
+  margin-bottom: 6px;
+}
+
+.texte.markdown a {
+  color: #a78bfa;
+  text-decoration: underline;
+}
+
+.texte.markdown pre {
+  background: #171421;
+  padding: 15px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+.texte.markdown code {
+  background: rgba(255,255,255,0.08);
+  padding: 3px 5px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.texte.markdown pre code {
+  background: transparent;
+  padding: 0;
+}

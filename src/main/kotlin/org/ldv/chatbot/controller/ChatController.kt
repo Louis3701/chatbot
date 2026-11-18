@@ -40,8 +40,9 @@ class ChatController(
             conversationDAO.findAllByOrderByDateDerniereModificationDesc()
         )
 
-        return "accueil"
+        return "utilisateur/chat"
     }
+
 
     // Création d'une nouvelle conversation
     @PostMapping("/conversations")
@@ -187,4 +188,31 @@ class ChatController(
 
         return "redirect:/conversations/$id"
     }
+
+
+    // Suppression d'une conversation
+    @PostMapping("/conversations/{id}/supprimer")
+    fun supprimerConversation(
+        @PathVariable id: Long
+    ): String {
+
+
+
+
+
+            println("ID reçu pour suppression : $id")
+
+            val conversations = conversationDAO.findAll()
+
+            println("IDs présents en base : ${conversations.map { it.id }}")
+
+            val conversation = conversationDAO.findById(id)
+                .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+
+            conversationDAO.delete(conversation)
+
+            return "redirect:/"
+        }
+
+
 }

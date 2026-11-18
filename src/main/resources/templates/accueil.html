@@ -3,43 +3,80 @@
       th:replace="~{base :: base(~{::content}, 'Accueil', 'accueil')}">
 <body>
 <th:block th:fragment="content">
+<div class="coque">
 
-    <section class="row align-items-center g-5">
-        <div class="col-lg-6">
-            <h1 class="accroche mb-3">Pose ta question à plusieurs IA.</h1>
-            <p class="sous-accroche mb-4">
-                Choisis un modèle, discute avec lui et retrouve tous tes échanges au même endroit.
-            </p>
-            <a class="btn btn-violet btn-lg px-4" th:href="@{/connexion}">Se connecter</a>
+    <!-- Barre latérale -->
+    <aside class="barre" id="barre" aria-label="Conversations">
+        <a class="brand" th:href="@{/}">
+            <img th:src="@{/img/logo.svg}" alt="">
+            <span>Vinchat<span class="brand-ai">.ai</span></span>
+        </a>
+
+        <a class="btn btn-primary btn-nouveau" th:href="@{/}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Nouvelle conversation
+        </a>
+
+        <p class="barre-titre">Récentes</p>
+        <!-- Exemples statiques : à remplacer par une boucle th:each sur les conversations de la base -->
+        <ul class="liste-conversations">
+            <li><a href="#">Résumé de la photosynthèse</a></li>
+            <li><a href="#">Plan d’exposé sur le réseau</a></li>
+            <li><a href="#">Idées de projet BTS</a></li>
+        </ul>
+
+        <div class="barre-bas">
+            <a class="lien-compte" th:href="@{/connexion}">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                Se connecter
+            </a>
+        </div>
+    </aside>
+    <div class="voile" id="voile"></div>
+
+    <!-- Zone de chat -->
+    <section class="chat" aria-label="Conversation">
+        <div class="chat-haut">
+            <button type="button" class="btn btn-contour btn-menu btn-sm" id="btn-menu"
+                    aria-label="Ouvrir le menu" aria-controls="barre" aria-expanded="false">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            </button>
+            <label for="modele" class="visually-hidden">Modèle d’IA</label>
+            <select id="modele" class="form-select form-select-sm selecteur-modele">
+                <option>gemini-3.8-flash</option>
+                <option>gemini-3.5-flash-lite</option>
+                <option selected>mistral-small-latest</option>
+                <option>mistral-medium-latest</option>
+            </select>
         </div>
 
-        <div class="col-lg-6">
-            <div class="apercu" aria-label="Exemple de conversation">
-                <span class="apercu-modele">Modèle : mistral-small-latest</span>
-                <div class="bulle bulle-utilisateur">Résume la photosynthèse en deux phrases.</div>
-                <div class="bulle bulle-assistant mb-0">
-                    Les plantes captent la lumière grâce à la <strong>chlorophylle</strong> pour
-                    transformer l’eau et le CO₂ en glucose. Elles rejettent de l’oxygène au passage.
+        <div class="fil" id="fil" th:attr="data-logo=@{/img/logo.svg}">
+            <div class="fil-contenu" id="fil-contenu">
+                <div class="accueil-chat" id="accueil-chat">
+                    <img th:src="@{/img/logo.svg}" alt="">
+                    <h1>Comment puis-je t’aider ?</h1>
+                    <p>Choisis un modèle en haut, puis pose ta question.</p>
+                    <div class="suggestions">
+                        <button type="button" class="suggestion" data-texte="Explique-moi un concept simplement.">Expliquer un concept</button>
+                        <button type="button" class="suggestion" data-texte="Aide-moi à rédiger un e-mail professionnel.">Rédiger un e-mail</button>
+                        <button type="button" class="suggestion" data-texte="Propose-moi un plan d’exposé.">Faire un plan d’exposé</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="atouts row g-4 mt-5">
-        <div class="col-md-4">
-            <h2 class="h5">Plusieurs modèles</h2>
-            <p class="mb-0">Mistral, Gemini et d’autres fournisseurs à venir, au choix à chaque nouvelle conversation.</p>
-        </div>
-        <div class="col-md-4">
-            <h2 class="h5">Historique conservé</h2>
-            <p class="mb-0">Tes conversations et leurs messages sont enregistrés pour que tu puisses les relire.</p>
-        </div>
-        <div class="col-md-4">
-            <h2 class="h5">Réponses lisibles</h2>
-            <p class="mb-0">Titres, listes, tableaux et code s’affichent correctement grâce au Markdown.</p>
-        </div>
+        <form class="composer" id="form-chat" autocomplete="off">
+            <div class="composer-boite">
+                <label for="saisie" class="visually-hidden">Ton message</label>
+                <textarea id="saisie" rows="1" placeholder="Écris ton message…"></textarea>
+                <button type="submit" class="btn-envoyer" id="btn-envoyer" aria-label="Envoyer" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                </button>
+            </div>
+            <p class="mention">Vinchat.ai peut se tromper : vérifie les informations importantes.</p>
+        </form>
     </section>
-
+</div>
 </th:block>
 </body>
 </html>

@@ -1,135 +1,186 @@
 <!DOCTYPE html>
-<html lang="fr"
-      xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{base :: layout(~{::title}, ~{::main})}">
-
-<head>
-    <title>Assistant IA</title>
-</head>
-
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base :: base(~{::content}, 'Assistant IA', 'accueil')}">
 <body>
+<th:block th:fragment="content">
+    <div class="coque">
 
-<main class="chat-page flex-grow-1 d-flex flex-column">
+        <!-- Barre latérale : historique des conversations -->
+        <aside class="barre" id="barre" aria-label="Historique des conversations">
+            <a class="brand" th:href="@{/}">
+                <img th:src="@{/img/logo.svg}" alt="">
+                <span>Vinchat<span class="brand-ai">.ai</span></span>
+            </a>
 
-    <!-- Zone de saisie -->
-    <div class="border-top p-3">
+            <a class="btn btn-primary btn-nouveau" th:href="@{/}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Nouvelle conversation
+            </a>
 
-        <!-- Création d'une conversation -->
-        <form id="formChat"
-              th:if="${conversation == null}"
-              th:action="@{/conversations}"
-              method="post">
+            <p class="barre-titre">Historique</p>
 
-            <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-end gap-2">
+            <ul class="liste-conversations">
+                <li th:each="c : ${conversations}" class="conversation-item">
 
-                <div class="model-select-wrapper">
-                    <!-- Choix du modèle IA -->
-                    <select name="idModele"
-                            class="form-select model-select"
-                            required>
+                    <!-- Accès à la conversation -->
+                    <a th:href="@{/conversations/{id}(id=${c.id})}"
+                       th:text="${c.titre}"
+                       th:classappend="${conversation != null and conversation.id == c.id} ? 'actif'"
+                       th:attr="aria-current=${conversation != null and conversation.id == c.id ? 'page' : null}">
+                        Titre
+                    </a>
 
-                        <option value="" disabled selected>
-                            Choisir un modèle IA
-                        </option>
+                    <!-- Bouton de suppression -->
+                    <form th:action="@{/conversations/{id}/supprimer(id=${c.id})}"
+                          method="post"
+                          onsubmit="return confirm('Supprimer cette conversation ?');">
 
-                        <option th:each="modele : ${modeles}"
-                                th:value="${modele.id}"
-                                th:text="${modele.nom}">
-                        </option>
+                        <button type="submit"
+                                class="btn-supprimer"
+                                title="Supprimer la conversation"
+                                aria-label="Supprimer la conversation">
 
+                            <svg width="17" height="17"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="2"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+                                <path d="M3 6h18"/>
+                                <path d="M8 6V4h8v2"/>
+                                <path d="M19 6l-1 14H6L5 6"/>
+                                <path d="M10 11v5M14 11v5"/>
+                            </svg>
+
+                        </button>
+                    </form>
+
+                </li>
+
+                <li class="vide"
+                    th:if="${#lists.isEmpty(conversations)}">
+                    Aucune conversation pour l’instant.
+                </li>
+            </ul>
+
+            <div class="barre-bas">
+                <a class="lien-compte" th:href="@{/connexion}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                    Se connecter
+                </a>
+            </div>
+        </aside>
+        <div class="voile" id="voile"></div>
+
+        <!-- Zone de chat -->
+        <section class="chat" aria-label="Conversation">
+            <div class="chat-haut">
+                <button type="button" class="btn btn-contour btn-menu btn-sm" id="btn-menu"
+                        aria-label="Ouvrir le menu" aria-controls="barre" aria-expanded="false">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+
+                <!-- Nouvelle conversation : choix du modèle (rattaché au formulaire du bas) -->
+                <th:block th:if="${conversation == null}">
+                    <label for="modele" class="visually-hidden">Modèle d’IA</label>
+                    <select id="modele" name="idModele" form="form-chat" required
+                            class="form-select form-select-sm selecteur-modele">
+                        <option value="" disabled selected>Choisir un modèle IA</option>
+                        <option th:each="mo : ${modeles}" th:value="${mo.id}" th:text="${mo.nom}">modèle</option>
                     </select>
-                </div>
-                <div class="flex-grow-1">
-                    <!-- Prompt -->
-                    <textarea name="prompt"
-                              class="form-control"
-                              rows="2"
-                              placeholder="Posez votre question..."
-                              required></textarea>
-                </div>
-                <div class="send-button-wrapper">
-                    <!-- Envoi -->
-                    <button class="btn btn-primary"
-                            type="submit">
-                        Envoyer
-                    </button>
+                </th:block>
+
+                <!-- Conversation existante : modèle conservé -->
+                <div class="modele-actuel" th:if="${conversation != null}">
+                    <img th:src="@{${conversation.modele.cheminLogo}}" alt="" width="24" height="24">
+                    <span th:text="${conversation.modele.nom}">modèle</span>
                 </div>
             </div>
 
-        </form>
+            <div class="fil" id="fil">
+                <div class="fil-contenu" id="fil-contenu">
 
-        <!-- Conversation existante -->
-        <form th:if="${conversation != null}"
-              th:action="@{/conversations/{id}/messages(id=${conversation.id})}"
-              method="post">
+                    <!-- Aucune conversation sélectionnée -->
+                    <div class="accueil-chat" th:if="${conversation == null}">
+                        <img th:src="@{/img/logo.svg}" alt="">
+                        <h1>Comment puis-je t’aider ?</h1>
+                        <p>Choisis un modèle en haut, puis pose ta question.</p>
+                        <div class="suggestions">
+                            <button type="button" class="suggestion" data-texte="Explique-moi un concept simplement.">Expliquer un concept</button>
+                            <button type="button" class="suggestion" data-texte="Aide-moi à rédiger un e-mail professionnel.">Rédiger un e-mail</button>
+                            <button type="button" class="suggestion" data-texte="Explique ce qu’est un DAO en trois points.">Expliquer un DAO</button>
+                        </div>
+                    </div>
 
-            <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-end gap-2">
+                    <!-- Historique des messages -->
+                    <th:block th:each="m : ${messages}">
+                        <div class="msg msg-utilisateur" th:if="${m.typeMessage.name() == 'UTILISATEUR'}">
+                            <div class="bulle" th:text="${m.contenu}">Question</div>
+                        </div>
+                        <div class="msg msg-assistant" th:if="${m.typeMessage.name() == 'ASSISTANT'}">
+                            <img class="avatar" th:src="@{/img/logo.svg}" alt="">
+                            <!-- Texte brut pour l'instant : le rendu Markdown viendra à l'étape 14 -->
+                            <div class="texte markdown" th:text="${m.contenu}">Réponse</div>                        </div>
+                    </th:block>
 
-                <!-- Modèle utilisé -->
-                <div class="model-current d-flex align-items-center gap-2">
-
-                    <img th:src="@{${conversation.modeleIA.cheminLogo}}"
-                         alt="Logo du modèle"
-                         width="28"
-                         height="28">
-
-                    <span th:text="${conversation.modeleIA.nom}">
-                </span>
-
+                    <!-- Affiché pendant l'appel à l'API -->
+                    <div class="msg msg-assistant attente" id="attente" hidden>
+                        <img class="avatar" th:src="@{/img/logo.svg}" alt="">
+                        <div class="texte" role="status">Le modèle réfléchit…</div>
+                    </div>
                 </div>
-
-                <!-- Prompt -->
-                <div class="flex-grow-1">
-                <textarea name="prompt"
-                          class="form-control"
-                          rows="2"
-                          placeholder="Écrivez votre message..."
-                          required></textarea>
-                </div>
-                <div class="send-button-wrapper">
-                    <!-- Envoi -->
-                    <button class="btn btn-primary"
-                            type="submit">
-                        Envoyer
-                    </button>
-                </div>
-
             </div>
 
-        </form>
-
+            <!-- Zone de saisie : crée une conversation ou ajoute un message à la conversation ouverte -->
+            <form class="composer" id="form-chat" method="post" autocomplete="off"
+                  th:action="${conversation == null} ? @{/conversations} : @{/conversations/{id}/messages(id=${conversation.id})}">
+                <div class="composer-boite">
+                    <label for="saisie" class="visually-hidden">Ton message</label>
+                    <textarea id="saisie" name="prompt" rows="1" required placeholder="Écris ton message…"></textarea>
+                    <button type="submit" class="btn-envoyer" id="btn-envoyer" aria-label="Envoyer" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                    </button>
+                </div>
+                <p class="mention">Vinchat.ai peut se tromper : vérifie les informations importantes.</p>
+            </form>
+        </section>
+    </div>
+    </form>
+    </section>
     </div>
 
+    <!-- Bibliothèque Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <!-- Zone des messages -->
-    <section class="flex-grow-1 overflow-auto p-4">
+    <!-- Nettoyage contre les attaques XSS -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 
-        <!-- Aucune conversation sélectionnée -->
-        <div th:if="${conversation == null}"
-             class="text-center mt-5">
+    <!-- Traitement Markdown -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
 
-            <h2>Comment puis-je vous aider ?</h2>
+            const messages = document.querySelectorAll(".markdown");
 
-            <p class="text-muted">
-                Choisissez un modèle IA et posez votre question.
-            </p>
+            messages.forEach(function (message) {
+                const markdown = message.textContent;
+                const html = marked.parse(markdown);
+                const htmlNettoye = DOMPurify.sanitize(html);
 
-        </div>
+                message.innerHTML = htmlNettoye;
+            });
 
-        <!-- Historique des messages -->
-        <div th:each="message : ${messages}"
-             class="mb-4">
+        });
+    </script>
 
-            <strong th:text="${message.typeMessage}">
-            </strong>
+</th:block>
+</body>
+</html>
+    <!-- Bibliothèque Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-            <div class="message mt-2 message-content"
-                 th:text="${message.contenu}">
-            </div>
-
-        </div>
-
-    </section>
-</main>
+    <!-- Nettoyage contre les attaques XSS -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+</th:block>
 </body>
 </html>

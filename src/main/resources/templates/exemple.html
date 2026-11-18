@@ -8,8 +8,10 @@
       th:replace="~{base :: base(~{::content}, 'Titre de la page', 'exemple')}">
 <body>
 <th:block th:fragment="content">
-    <h1 class="h2">Titre de la page</h1>
-    <p>Contenu de la page.</p>
+    <div class="container py-5">
+        <h1 class="h2">Titre de la page</h1>
+        <p>Contenu de la page.</p>
+    </div>
 </th:block>
 </body>
 </html>
