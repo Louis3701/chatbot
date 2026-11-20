@@ -1,4 +1,3 @@
-
 package org.ldv.chatbot.controller
 
 import org.ldv.chatbot.model.dao.ConversationDAO
@@ -8,14 +7,15 @@ import org.ldv.chatbot.model.entity.Conversation
 import org.ldv.chatbot.model.entity.Message
 import org.ldv.chatbot.model.entity.TypeMessage
 import org.ldv.chatbot.service.IAServiceFactory
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.server.ResponseStatusException
-import org.springframework.http.HttpStatus
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.time.LocalDateTime
 
 @Controller
@@ -43,12 +43,12 @@ class ChatController(
         return "utilisateur/chat"
     }
 
-
     // Création d'une nouvelle conversation
     @PostMapping("/conversations")
     fun creerConversation(
         @RequestParam prompt: String,
-        @RequestParam idModele: Long
+        @RequestParam idModele: Long,
+        redirectAttributes: RedirectAttributes
     ): String {
 
         // Récupération du modèle sélectionné
@@ -97,6 +97,9 @@ class ChatController(
 
             messageDAO.save(messageAssistant)
 
+            // Une nouvelle réponse vient d'être enregistrée : lecture automatique
+            redirectAttributes.addFlashAttribute("lectureAuto", true)
+
         } catch (e: Exception) {
             println("Erreur lors de l'appel au modèle ${modele.nom} : ${e.message}")
         }
@@ -141,7 +144,8 @@ class ChatController(
     @PostMapping("/conversations/{id}/messages")
     fun envoyerMessage(
         @PathVariable id: Long,
-        @RequestParam prompt: String
+        @RequestParam prompt: String,
+        redirectAttributes: RedirectAttributes
     ): String {
 
         val conversation = conversationDAO.findById(id)
@@ -177,6 +181,9 @@ class ChatController(
 
             messageDAO.save(messageAssistant)
 
+            // Une nouvelle réponse vient d'être enregistrée : lecture automatique
+            redirectAttributes.addFlashAttribute("lectureAuto", true)
+
         } catch (e: Exception) {
             println("Erreur lors de l'appel à ${conversation.modele?.nom} : ${e.message}")
         }
@@ -189,30 +196,17 @@ class ChatController(
         return "redirect:/conversations/$id"
     }
 
-
     // Suppression d'une conversation
     @PostMapping("/conversations/{id}/supprimer")
     fun supprimerConversation(
         @PathVariable id: Long
     ): String {
 
+        val conversation = conversationDAO.findById(id)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
+        conversationDAO.delete(conversation)
 
-
-
-            println("ID reçu pour suppression : $id")
-
-            val conversations = conversationDAO.findAll()
-
-            println("IDs présents en base : ${conversations.map { it.id }}")
-
-            val conversation = conversationDAO.findById(id)
-                .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
-
-            conversationDAO.delete(conversation)
-
-            return "redirect:/"
-        }
-
-
+        return "redirect:/"
+    }
 }

@@ -25,7 +25,9 @@
     <header th:replace="~{fragments/header :: header(${activePage})}"></header>
 </th:block>
 
-<main class="flex-grow-1 d-flex flex-column" th:insert="${content}">
+<main class="chat-page flex-grow-1 d-flex flex-column"
+      th:attr="data-lecture-auto=${lectureAuto == true}"
+      th:insert="${content}">
     Contenu de la page
 </main>
 
@@ -35,5 +37,9 @@
 
 <script th:src="@{/vendor/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/app.js}"></script>
+<script th:src="@{/vendor/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/textToSpeech.js}"></script>
+</body>
 </body>
 </html>
