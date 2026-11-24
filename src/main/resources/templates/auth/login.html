@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base :: base(~{::content}, 'Connexion', 'connexion')}">
+
+<body>
+
+<th:block th:fragment="content">
+
+    <div class="page-centree">
+
+        <section class="carte-connexion">
+
+            <!-- Logo -->
+            <img class="logo-carte"
+                 th:src="@{/img/logo.svg}"
+                 alt="Vinchat.ai">
+
+            <!-- Titre -->
+            <div class="text-center mb-4">
+                <h2>Bienvenue</h2>
+                <p class="text-secondary mb-0">
+                    Connectez-vous à votre espace personnel
+                </p>
+            </div>
+
+            <!-- Identifiants incorrects -->
+            <div th:if="${param.error}"
+                 class="alert alert-danger"
+                 role="alert">
+                Adresse e-mail ou mot de passe incorrect,
+                ou compte désactivé.
+            </div>
+
+            <!-- Déconnexion réussie -->
+            <div th:if="${param.logout}"
+                 class="alert alert-success"
+                 role="status">
+                Vous avez été déconnecté avec succès.
+            </div>
+
+            <!-- Formulaire -->
+            <form th:action="@{/login}" method="post">
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        Adresse e-mail
+                    </label>
+
+                    <input type="email"
+                           class="form-control login-input"
+                           id="email"
+                           name="email"
+                           placeholder="Votre adresse e-mail"
+                           autocomplete="username"
+                           required
+                           autofocus>
+                </div>
+
+                <div class="mb-4">
+                    <label for="password" class="form-label">
+                        Mot de passe
+                    </label>
+
+                    <input type="password"
+                           class="form-control login-input"
+                           id="password"
+                           name="password"
+                           placeholder="Votre mot de passe"
+                           autocomplete="current-password"
+                           required>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary login-submit w-100">
+                    Se connecter
+                </button>
+
+            </form>
+
+            <!-- Informations -->
+            <div class="login-information text-center mt-4">
+                <p class="text-secondary small mb-0">
+                    Vous ne possédez pas de compte ?
+                    Contactez votre administrateur.
+                </p>
+            </div>
+
+        </section>
+
+    </div>
+
+</th:block>
+
+</body>
+</html>

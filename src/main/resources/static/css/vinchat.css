@@ -289,3 +289,74 @@ h1, h2, h3, h4, h5, h6, .brand {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ---------- Page de connexion Vinchat.ai ---------- */
+
+.page-centree {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+  background:
+          radial-gradient(
+                  40rem 20rem at 50% 0,
+                  rgba(108, 76, 241, .20),
+                  transparent 70%
+          ),
+          var(--vc-fond);
+}
+
+.carte-connexion {
+  width: 100%;
+  max-width: 420px;
+  background: var(--vc-surface);
+  border: 1px solid var(--vc-bord);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+}
+
+.carte-connexion .logo-carte {
+  width: 64px;
+  height: 64px;
+  display: block;
+  margin: 0 auto 1.5rem;
+}
+
+.carte-connexion h2 {
+  font-size: 1.8rem;
+  color: var(--vc-texte);
+}
+
+.carte-connexion label {
+  color: var(--vc-texte);
+  font-weight: 500;
+}
+
+.login-input {
+  min-height: 46px;
+  border-radius: 9px;
+}
+
+.login-submit {
+  min-height: 46px;
+  border-radius: 9px;
+  font-weight: 600;
+  transition: .2s ease;
+}
+
+.login-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(108, 76, 241, .3);
+}
+
+.login-information {
+  border-top: 1px solid var(--vc-bord);
+  padding-top: 1.2rem;
+}
+
+@media (max-width: 480px) {
+  .carte-connexion {
+    padding: 1.5rem;
+  }
+}

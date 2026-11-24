@@ -166,3 +166,5 @@
 }
 /* Choix de la voix de lecture */
 .selecteur-voix { width: auto; max-width: 14rem; margin-left: auto; }
+/* Bouton de déconnexion : même aspect que les liens de la barre */
+button.lien-compte { background: transparent; border: 0; width: 100%; text-align: left; font: inherit; cursor: pointer; }

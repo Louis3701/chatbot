@@ -8,23 +8,26 @@
             <img class="logo-carte" th:src="@{/img/logo.svg}" alt="">
             <h1 class="h3 text-center mb-4">Se connecter</h1>
 
-            <form id="form-connexion" action="#" method="post" novalidate>
+            <div class="alert alert-danger" role="alert" th:if="${param.error}">
+                Adresse e-mail ou mot de passe incorrect.
+            </div>
+            <div class="alert alert-success" role="status" th:if="${param.logout}">
+                Tu as été déconnecté.
+            </div>
+
+            <form th:action="@{/login}" method="post">
                 <div class="mb-3">
                     <label for="email" class="form-label">Adresse e-mail</label>
                     <input type="email" class="form-control" id="email" name="email"
                            autocomplete="email" required>
                 </div>
                 <div class="mb-4">
-                    <label for="motDePasse" class="form-label">Mot de passe</label>
-                    <input type="password" class="form-control" id="motDePasse" name="motDePasse"
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" name="password"
                            autocomplete="current-password" required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Se connecter</button>
             </form>
-
-            <div id="message-connexion" class="alert alert-info mt-4 mb-0 d-none" role="status">
-                La connexion sera disponible prochainement.
-            </div>
         </div>
     </div>
 </th:block>
