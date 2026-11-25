@@ -45,6 +45,20 @@
             </ul>
 
             <div class="barre-bas">
+
+                <!-- Informations sur l'utilisateur connecté -->
+                <div class="profil" th:if="${utilisateur != null}">
+                    <span class="profil-nom"
+                          th:text="${utilisateur != null ? utilisateur.prenom + ' ' + utilisateur.nom : 'Anonyme'}">
+                        Anonyme
+                    </span>
+                    <small class="profil-role"
+                           th:text="${utilisateur != null ? utilisateur.role.nom : 'Visiteur'}">
+                        Visiteur
+                    </small>
+                </div>
+
+                <!-- Déconnexion (POST + jeton CSRF ajouté par th:action) -->
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="lien-compte">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
@@ -78,6 +92,12 @@
                     <img th:src="@{${conversation.modele.cheminLogo}}" alt="" width="24" height="24">
                     <span th:text="${conversation.modele.nom}">modèle</span>
                 </div>
+
+                <!-- Choix de la voix de lecture (rempli par textToSpeech.js) -->
+                <label for="choixVoix" class="visually-hidden">Voix de lecture</label>
+                <select id="choixVoix" class="form-select form-select-sm selecteur-voix">
+                    <option value="">Voix par défaut</option>
+                </select>
             </div>
 
             <div class="fil" id="fil">
@@ -153,12 +173,6 @@
 
         });
     </script>
-    <!-- Choix de la voix de lecture -->
-    <label for="choixVoix" class="visually-hidden">Voix de lecture</label>
-    <select id="choixVoix" class="form-select form-select-sm selecteur-voix">
-        <option value="">Voix par défaut</option>
-    </select>
-
 
 </th:block>
 </body>
