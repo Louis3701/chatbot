@@ -168,3 +168,13 @@
 .selecteur-voix { width: auto; max-width: 14rem; margin-left: auto; }
 /* Bouton de déconnexion : même aspect que les liens de la barre */
 button.lien-compte { background: transparent; border: 0; width: 100%; text-align: left; font: inherit; cursor: pointer; }
+/* Formulaires du back-office */
+.carte-admin {
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+  background: var(--vc-surface);
+  border: 1px solid var(--vc-bord);
+  border-radius: 1.25rem;
+  padding: 2rem;
+}

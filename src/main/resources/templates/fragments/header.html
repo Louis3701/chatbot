@@ -1,14 +1,43 @@
+
 <!DOCTYPE html>
-<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <body>
+
 <header th:fragment="header(activePage)" class="entete">
-    <nav class="container d-flex align-items-center justify-content-between" aria-label="Navigation principale">
+
+    <nav class="container d-flex align-items-center justify-content-between"
+         aria-label="Navigation principale">
+
+        <!-- Logo -->
         <a class="brand" th:href="@{/}">
             <img th:src="@{/img/logo.svg}" alt="">
             <span>Vinchat<span class="brand-ai">.ai</span></span>
         </a>
-        <a class="btn btn-contour btn-sm px-3" th:href="@{/}">Retour au chat</a>
+
+        <!-- Liens de navigation -->
+        <div class="d-flex align-items-center gap-3">
+
+            <!-- Visible uniquement pour ADMIN -->
+            <a sec:authorize="hasRole('ADMIN')"
+               class="btn btn-contour btn-sm px-3"
+               th:href="@{/admin/modeles-ia}">
+                Gestion des modèles IA
+            </a>
+
+            <!-- Retour au chatbot -->
+            <a class="btn btn-contour btn-sm px-3"
+               th:href="@{/}">
+                Retour au chat
+            </a>
+
+        </div>
+
     </nav>
+
 </header>
+
 </body>
 </html>

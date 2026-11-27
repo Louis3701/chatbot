@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base :: base(~{::content}, 'Ajouter un modèle IA', 'admin')}">
+<body>
+<th:block th:fragment="content">
+    <div class="container py-5">
+        <div class="carte-admin">
+            <h1 class="h3 mb-4">Ajouter un modèle IA</h1>
+
+            <!-- th:action ajoute automatiquement le jeton CSRF -->
+            <form method="post" th:action="@{/admin/modeles-ia}">
+
+                <div class="mb-3">
+                    <label for="nom" class="form-label">Nom du modèle</label>
+                    <input type="text" id="nom" name="nom" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="fourniseurIAId" class="form-label">Fournisseur IA</label>
+                    <select id="fourniseurIAId" name="fourniseurIAId" class="form-select" required>
+                        <option value="">Sélectionner un fournisseur</option>
+                        <option th:each="fournisseur : ${fourniseursIA}"
+                                th:value="${fournisseur.id}"
+                                th:text="${fournisseur.nom}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="urlAPI" class="form-label">URL de l’API</label>
+                    <input type="url" id="urlAPI" name="urlAPI" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea id="description" name="description" rows="4" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label for="cheminLogo" class="form-label">Chemin du logo</label>
+                    <input type="text" id="cheminLogo" name="cheminLogo" class="form-control"
+                           placeholder="/img/mistral.png">
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                    <a th:href="@{/admin/modeles-ia}" class="btn btn-contour">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
